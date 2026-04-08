@@ -92,3 +92,4 @@ Operated by **Alohomora**. Not affiliated with Discord Inc.
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:8a4fff,100:6378ff&height=100&section=footer" />
 
 </div>
+
