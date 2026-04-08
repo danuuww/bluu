@@ -5,305 +5,342 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy - Bluu</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
+        :root { --a: 138, 79, 255; --a2: 99, 40, 210; }
+
+        html { scroll-behavior: smooth; }
+
         body {
             font-family: 'Inter', sans-serif;
-            background: #04040a;
-            color: #9090a0;
+            background: #03030a;
+            color: #7878a0;
             min-height: 100vh;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            cursor: none;
         }
 
-        #bg-canvas {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
+        #silk {
+            position: fixed; inset: 0; z-index: 0;
+            opacity: 0.45; pointer-events: none;
         }
 
-        body::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            z-index: 1;
-            pointer-events: none;
-            opacity: 0.04;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-            background-size: 180px;
+        .vignette {
+            position: fixed; inset: 0; z-index: 1; pointer-events: none;
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(3,3,10,0.2) 0%, rgba(3,3,10,0.75) 100%);
         }
 
-        .container {
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 100px 24px 80px;
-            position: relative;
-            z-index: 3;
+        .grain {
+            position: fixed; inset: 0; z-index: 2; pointer-events: none;
+            opacity: 0.032;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-size: 160px;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 72px;
+        .cur {
+            position: fixed; width: 9px; height: 9px; border-radius: 50%;
+            background: rgba(var(--a), 1);
+            box-shadow: 0 0 14px rgba(var(--a), 0.7), 0 0 36px rgba(var(--a), 0.2);
+            pointer-events: none; z-index: 9999;
+            transform: translate(-50%,-50%);
+            mix-blend-mode: screen;
+            transition: transform 0.15s ease;
         }
+
+        .cur-ring {
+            position: fixed; width: 34px; height: 34px; border-radius: 50%;
+            border: 1px solid rgba(var(--a), 0.22);
+            pointer-events: none; z-index: 9998;
+            transform: translate(-50%,-50%);
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .wrap {
+            max-width: 680px; margin: 0 auto;
+            padding: 110px 24px 90px;
+            position: relative; z-index: 3;
+        }
+
+        .header { text-align: center; margin-bottom: 80px; }
 
         .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 16px;
-            border-radius: 50px;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 28px;
-            background: rgba(138, 79, 255, 0.08);
-            border: 1px solid rgba(138, 79, 255, 0.18);
-            color: #b07af7;
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 7px 18px; border-radius: 50px;
+            font-size: 10px; font-weight: 700;
+            letter-spacing: 2.5px; text-transform: uppercase;
+            margin-bottom: 30px;
+            position: relative; overflow: hidden;
+            background: rgba(var(--a), 0.07);
+            border: 1px solid rgba(var(--a), 0.18);
+        }
+
+        .badge-text {
+            background: linear-gradient(
+                110deg,
+                rgba(var(--a), 0.6) 0%,
+                rgba(var(--a), 0.6) 30%,
+                #fff 50%,
+                rgba(var(--a), 0.6) 70%,
+                rgba(var(--a), 0.6) 100%
+            );
+            background-size: 250% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine {
+            0% { background-position: 200% center; }
+            100% { background-position: -200% center; }
         }
 
         .badge-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #b07af7;
-            box-shadow: 0 0 10px #b07af7;
-            animation: pulse-dot 2s ease-in-out infinite;
+            width: 6px; height: 6px; border-radius: 50%;
+            background: rgba(var(--a), 1);
+            box-shadow: 0 0 8px rgba(var(--a), 0.9);
+            animation: blink 2.2s ease-in-out infinite; flex-shrink: 0;
         }
 
-        @keyframes pulse-dot {
+        @keyframes blink {
             0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.8); }
+            50% { opacity: 0.25; transform: scale(0.7); }
         }
 
-        .header h1 {
-            font-size: 46px;
-            font-weight: 800;
-            letter-spacing: -2px;
-            line-height: 1;
-            margin-bottom: 14px;
-            background: linear-gradient(135deg, #fff 0%, #e0d0ff 60%, #b07af7 100%);
+        #title {
+            font-size: 52px; font-weight: 400;
+            letter-spacing: -2.5px; line-height: 1;
+            margin-bottom: 14px; color: #fff;
+            display: block; cursor: none;
+        }
+
+        #title span {
+            display: inline-block;
+            background: linear-gradient(135deg, #fff 0%, #ddd0ff 60%, rgba(var(--a),1) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            position: relative;
+            transition: font-variation-settings 0.05s linear;
         }
 
-        .header h1::after {
-            content: attr(data-text);
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%);
-            background-size: 200% 100%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: shimmer 4s linear infinite;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
-        }
-
-        .header .subtitle { color: #38384a; font-size: 13px; }
+        .subtitle { color: #2c2c42; font-size: 13px; letter-spacing: 0.3px; margin-top: 8px; }
 
         .card {
-            position: relative;
-            border-radius: 20px;
-            padding: 1px;
-            margin-bottom: 14px;
-            background: linear-gradient(135deg, rgba(138, 79, 255, 0.12), rgba(255,255,255,0.03), rgba(138, 79, 255, 0.06));
-            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            position: relative; border-radius: 22px; padding: 1px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg,
+                rgba(var(--a), 0.14) 0%,
+                rgba(255,255,255,0.035) 50%,
+                rgba(var(--a2), 0.07) 100%);
+            transform-style: preserve-3d;
+            will-change: transform;
+            transition: box-shadow 0.5s ease, transform 0.5s cubic-bezier(0.22,1,0.36,1);
         }
 
-        .card:hover { transform: translateY(-3px); }
-        .card:hover .card-inner { background: rgba(138, 79, 255, 0.04); }
-
-        .card-inner {
-            background: rgba(8, 8, 18, 0.92);
-            border-radius: 19px;
-            padding: 32px;
-            transition: background 0.4s ease;
-            backdrop-filter: blur(20px);
+        .card:hover {
+            box-shadow:
+                0 24px 60px rgba(var(--a), 0.07),
+                0 0 0 1px rgba(var(--a), 0.08),
+                inset 0 1px 0 rgba(255,255,255,0.04);
         }
 
         .card::before {
             content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 20px;
-            background: radial-gradient(300px circle at var(--mx, 50%) var(--my, 50%), rgba(138, 79, 255, 0.08), transparent 70%);
+            position: absolute; inset: 0; border-radius: 22px;
+            background: conic-gradient(
+                from var(--beam, 0deg) at 50% 50%,
+                transparent 0deg,
+                rgba(var(--a), 0.7) 30deg,
+                rgba(220, 190, 255, 1) 50deg,
+                rgba(var(--a), 0.5) 70deg,
+                transparent 100deg
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            padding: 1px;
             opacity: 0;
-            transition: opacity 0.3s;
-            z-index: 2;
+            transition: opacity 0.35s ease;
+            animation: beam 2.5s linear infinite paused;
             pointer-events: none;
         }
 
-        .card:hover::before { opacity: 1; }
+        .card:hover::before { opacity: 1; animation-play-state: running; }
 
-        .card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+        @keyframes beam { to { --beam: 360deg; } }
+
+        @property --beam {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        .card::after {
+            content: '';
+            position: absolute; inset: 0; border-radius: 22px;
+            background: radial-gradient(
+                420px circle at var(--mx,50%) var(--my,50%),
+                rgba(var(--a), 0.055), transparent 65%
+            );
+            opacity: 0; transition: opacity 0.35s;
+            pointer-events: none; z-index: 0;
+        }
+
+        .card:hover::after { opacity: 1; }
+
+        .card-in {
+            background: rgba(4, 4, 13, 0.94);
+            border-radius: 21px; padding: 30px 32px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            position: relative; z-index: 1;
+        }
+
+        .card-head { display: flex; align-items: center; gap: 13px; margin-bottom: 14px; }
 
         .num {
-            width: 30px;
-            height: 30px;
-            border-radius: 9px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 700;
-            color: #b07af7;
-            background: rgba(138, 79, 255, 0.1);
-            border: 1px solid rgba(138, 79, 255, 0.15);
+            width: 28px; height: 28px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 700;
+            color: rgba(var(--a), 1);
+            background: rgba(var(--a), 0.09);
+            border: 1px solid rgba(var(--a), 0.13);
             flex-shrink: 0;
         }
 
-        h2 { font-size: 16px; font-weight: 600; color: #dde0f5; letter-spacing: -0.3px; }
-
-        p { font-size: 14px; line-height: 1.8; margin-bottom: 8px; }
-
-        ul { list-style: none; margin: 8px 0; }
-
-        li {
-            font-size: 14px;
-            line-height: 1.8;
-            padding-left: 20px;
-            position: relative;
-            margin-bottom: 2px;
-        }
-
+        h2 { font-size: 15.5px; font-weight: 600; color: #d5d8f5; letter-spacing: -0.3px; }
+        p { font-size: 13.5px; line-height: 1.85; margin-bottom: 6px; }
+        ul { list-style: none; margin: 7px 0 3px; }
+        li { font-size: 13.5px; line-height: 1.85; padding-left: 19px; position: relative; margin-bottom: 1px; }
         li::before {
             content: '';
-            position: absolute;
-            left: 2px;
-            top: 11px;
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: rgba(138, 79, 255, 0.5);
-            box-shadow: 0 0 5px rgba(138, 79, 255, 0.3);
+            position: absolute; left: 2px; top: 10px;
+            width: 5px; height: 5px; border-radius: 50%;
+            background: rgba(var(--a), 0.4);
+            box-shadow: 0 0 5px rgba(var(--a), 0.2);
         }
 
-        a { color: #b07af7; text-decoration: none; }
-        a:hover { color: #c9a0fc; }
+        a { color: rgba(var(--a), 1); text-decoration: none; }
+        a:hover { color: #c8a0ff; }
 
-        /* Data grid */
-        .data-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin: 16px 0 12px;
+        /* DATA GRID */
+        .grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 8px; margin: 16px 0 12px;
         }
 
-        .data-item {
-            background: rgba(138, 79, 255, 0.03);
-            border: 1px solid rgba(138, 79, 255, 0.08);
-            border-radius: 12px;
-            padding: 18px;
-            transition: border-color 0.3s;
+        .gi {
+            background: rgba(var(--a), 0.028);
+            border: 1px solid rgba(var(--a), 0.07);
+            border-radius: 12px; padding: 18px;
+            transition: border-color 0.3s, background 0.3s;
         }
 
-        .data-item:hover { border-color: rgba(138, 79, 255, 0.18); }
+        .gi:hover {
+            border-color: rgba(var(--a), 0.18);
+            background: rgba(var(--a), 0.05);
+        }
 
-        .data-item h4 {
-            font-size: 11px;
-            font-weight: 700;
-            color: #b07af7;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
+        .gi h4 {
+            font-size: 10px; font-weight: 700;
+            color: rgba(var(--a), 0.75);
+            text-transform: uppercase; letter-spacing: 1.5px;
             margin-bottom: 10px;
         }
 
-        .data-item li { font-size: 13px; }
-        .data-item li::before { top: 9px; width: 4px; height: 4px; }
+        .gi li { font-size: 12.5px; }
+        .gi li::before { top: 9px; width: 4px; height: 4px; }
 
-        .fade-up {
-            opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
+        .fu {
+            opacity: 0; transform: translateY(26px);
+            transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
         }
-
-        .fade-up.visible { opacity: 1; transform: translateY(0); }
+        .fu.on { opacity: 1; transform: translateY(0); }
 
         .footer {
-            text-align: center;
-            margin-top: 48px;
-            padding-top: 28px;
-            border-top: 1px solid rgba(255,255,255,0.04);
+            text-align: center; margin-top: 52px; padding-top: 28px;
+            border-top: 1px solid rgba(255,255,255,0.035);
         }
-
-        .footer p { font-size: 12px; color: #22222e; }
+        .footer p { font-size: 11px; color: #1a1a28; letter-spacing: 0.4px; }
 
         .nav-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            margin-top: 14px;
-            padding: 9px 22px;
-            font-size: 13px;
-            font-weight: 500;
-            color: #44445a;
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 50px;
-            transition: all 0.3s;
+            display: inline-flex; align-items: center; gap: 7px;
+            margin-top: 14px; padding: 10px 24px;
+            font-size: 12.5px; font-weight: 500; color: #36364e;
+            border: 1px solid rgba(255,255,255,0.05); border-radius: 50px;
+            transition: all 0.4s cubic-bezier(0.22,1,0.36,1);
+            position: relative; overflow: hidden;
         }
 
-        .nav-link:hover {
-            color: #b07af7;
-            border-color: rgba(138,79,255,0.25);
-            background: rgba(138,79,255,0.05);
+        .nav-link span { position: relative; z-index: 1; }
+
+        .nav-link::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: rgba(var(--a), 0.07);
+            transform: scaleX(0); transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
         }
 
-        ::-webkit-scrollbar { width: 5px; }
+        .nav-link:hover::before { transform: scaleX(1); }
+        .nav-link:hover { color: rgba(var(--a),1); border-color: rgba(var(--a),0.22); }
+
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.07); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius: 2px; }
 
         @media (max-width: 560px) {
-            .data-grid { grid-template-columns: 1fr; }
-            .header h1 { font-size: 32px; }
+            .grid { grid-template-columns: 1fr; }
+            #title { font-size: 38px; }
         }
     </style>
 </head>
 <body>
 
-<canvas id="bg-canvas"></canvas>
+<canvas id="silk"></canvas>
+<div class="vignette"></div>
+<div class="grain"></div>
+<div class="cur" id="cur"></div>
+<div class="cur-ring" id="ring"></div>
 
-<div class="container">
-    <div class="header fade-up">
-        <div class="badge"><span class="badge-dot"></span>Privacy</div>
-        <h1 data-text="Privacy Policy">Privacy Policy</h1>
+<div class="wrap">
+    <div class="header fu">
+        <div class="badge">
+            <span class="badge-dot"></span>
+            <span class="badge-text">Legal Document</span>
+        </div>
+        <div id="title"></div>
         <p class="subtitle">Last updated: April 8, 2026</p>
     </div>
 
-    <div class="card fade-up">
-        <div class="card-inner">
+    <div class="card fu">
+        <div class="card-in">
             <div class="card-head"><div class="num">1</div><h2>Introduction</h2></div>
             <p>This Privacy Policy explains what data Bluu collects, how it is used, and how it is stored. We are committed to protecting your privacy and handling your data responsibly.</p>
         </div>
     </div>
 
-    <div class="card fade-up">
-        <div class="card-inner">
+    <div class="card fu">
+        <div class="card-in">
             <div class="card-head"><div class="num">2</div><h2>Data We Collect</h2></div>
             <p>Bluu collects only the data necessary to provide its features. Below is a breakdown of data collected per feature:</p>
-            <div class="data-grid">
-                <div class="data-item"><h4>General</h4><ul><li>Discord User ID</li><li>Discord Server ID</li><li>Channel IDs</li></ul></div>
-                <div class="data-item"><h4>Music</h4><ul><li>Track titles played</li><li>Listening duration</li><li>Listening statistics</li></ul></div>
-                <div class="data-item"><h4>Welcomer</h4><ul><li>Welcome/leave channel</li><li>Custom messages</li><li>Custom images</li></ul></div>
-                <div class="data-item"><h4>Ticket System</h4><ul><li>Ticket creator and staff</li><li>Ticket status</li><li>Form responses</li></ul></div>
-                <div class="data-item"><h4>Giveaway</h4><ul><li>Participant entries</li><li>Prize and duration</li><li>Required roles</li></ul></div>
-                <div class="data-item"><h4>Anonymous Chat</h4><ul><li>Age, gender, bio</li><li>Chat session data</li><li>Report history</li></ul></div>
+            <div class="grid">
+                <div class="gi"><h4>General</h4><ul><li>Discord User ID</li><li>Discord Server ID</li><li>Channel IDs</li></ul></div>
+                <div class="gi"><h4>Music</h4><ul><li>Track titles played</li><li>Listening duration</li><li>Listening statistics</li></ul></div>
+                <div class="gi"><h4>Welcomer</h4><ul><li>Welcome/leave channel</li><li>Custom messages</li><li>Custom images</li></ul></div>
+                <div class="gi"><h4>Ticket System</h4><ul><li>Ticket creator and staff</li><li>Ticket status</li><li>Form responses</li></ul></div>
+                <div class="gi"><h4>Giveaway</h4><ul><li>Participant entries</li><li>Prize and duration</li><li>Required roles</li></ul></div>
+                <div class="gi"><h4>Anonymous Chat</h4><ul><li>Age, gender, bio</li><li>Chat session data</li><li>Report history</li></ul></div>
             </div>
             <p>We do not collect passwords, email addresses, IP addresses, or any data beyond what is listed above.</p>
         </div>
     </div>
 
-    <div class="card fade-up">
-        <div class="card-inner">
+    <div class="card fu">
+        <div class="card-in">
             <div class="card-head"><div class="num">3</div><h2>How We Use Your Data</h2></div>
             <p>The collected data is used solely for the following purposes:</p>
             <ul>
@@ -316,8 +353,8 @@
         </div>
     </div>
 
-    <div class="card fade-up">
-        <div class="card-inner">
+    <div class="card fu">
+        <div class="card-in">
             <div class="card-head"><div class="num">4</div><h2>Data Storage and Security</h2></div>
             <ul>
                 <li>Data is stored in a secured MongoDB database.</li>
@@ -328,8 +365,8 @@
         </div>
     </div>
 
-    <div class="card fade-up">
-        <div class="card-inner">
+    <div class="card fu">
+        <div class="card-in">
             <div class="card-head"><div class="num">5</div><h2>Data Retention</h2></div>
             <ul>
                 <li>Server configuration data is retained as long as the bot remains in the server. When the bot is removed, the data may be deleted.</li>
@@ -339,8 +376,8 @@
         </div>
     </div>
 
-    <div class="card fade-up">
-        <div class="card-inner">
+    <div class="card fu">
+        <div class="card-in">
             <div class="card-head"><div class="num">6</div><h2>Your Rights</h2></div>
             <p>You have the right to:</p>
             <ul>
@@ -352,106 +389,245 @@
         </div>
     </div>
 
-    <div class="card fade-up">
-        <div class="card-inner">
+    <div class="card fu">
+        <div class="card-in">
             <div class="card-head"><div class="num">7</div><h2>Children's Privacy</h2></div>
             <p>Bluu does not knowingly collect data from users under the age of 13. If we become aware that a user under 13 has provided personal information, we will take steps to remove that data promptly.</p>
         </div>
     </div>
 
-    <div class="card fade-up">
-        <div class="card-inner">
+    <div class="card fu">
+        <div class="card-in">
             <div class="card-head"><div class="num">8</div><h2>Changes to This Policy</h2></div>
             <p>We may update this Privacy Policy from time to time. Any changes will be reflected on this page with an updated "Last updated" date. Continued use of Bluu after changes constitutes acceptance of the updated policy.</p>
         </div>
     </div>
 
-    <div class="card fade-up">
-        <div class="card-inner">
+    <div class="card fu">
+        <div class="card-in">
             <div class="card-head"><div class="num">9</div><h2>Contact</h2></div>
             <p>If you have any questions or concerns about this Privacy Policy or your data, please contact us at <a href="mailto:tegardanu10@gmail.com">tegardanu10@gmail.com</a>.</p>
         </div>
     </div>
 
-    <div class="footer fade-up">
+    <div class="footer fu">
         <p>Bluu &copy; 2026</p>
-        <a href="terms.html" class="nav-link">&larr; Terms of Service</a>
+        <a href="terms.html" class="nav-link"><span>&larr;</span> <span>Terms of Service</span></a>
     </div>
 </div>
 
 <script>
-const canvas = document.getElementById('bg-canvas');
-const ctx = canvas.getContext('2d');
-let W, H, orbs = [], particles = [];
+// SILK WebGL — purple variant
+(function() {
+    const canvas = document.getElementById('silk');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (!gl) return;
 
-function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    const vert = `
+        attribute vec2 a_pos;
+        varying vec2 vUv;
+        void main() {
+            vUv = a_pos * 0.5 + 0.5;
+            gl_Position = vec4(a_pos, 0.0, 1.0);
+        }
+    `;
 
-function createOrbs() {
-    orbs = [
-        { x: W * 0.35, y: H * 0.1, r: 360, vx: 0.10, vy: 0.09, color: '138, 79, 255', alpha: 0.12 },
-        { x: W * 0.7, y: H * 0.25, r: 280, vx: -0.08, vy: 0.10, color: '99, 60, 200', alpha: 0.09 },
-        { x: W * 0.45, y: H * 0.75, r: 260, vx: 0.06, vy: -0.09, color: '80, 130, 255', alpha: 0.07 },
-    ];
-}
+    const frag = `
+        precision highp float;
+        varying vec2 vUv;
+        uniform float uTime;
+        uniform vec3 uColor;
+        uniform float uSpeed;
+        uniform float uScale;
+        uniform float uRotation;
+        uniform float uNoiseIntensity;
 
-function createParticles() {
-    particles = Array.from({ length: 55 }, () => ({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        r: Math.random() * 1.2 + 0.2,
-        alpha: Math.random() * 0.35 + 0.1,
-        speed: Math.random() * 0.3 + 0.1,
-        pulse: Math.random() * Math.PI * 2,
-    }));
-}
+        const float e = 2.71828182845904523536;
 
-function draw() {
-    ctx.clearRect(0, 0, W, H);
-    orbs.forEach(o => {
-        o.x += o.vx; o.y += o.vy;
-        if (o.x < -o.r || o.x > W + o.r) o.vx *= -1;
-        if (o.y < -o.r || o.y > H + o.r) o.vy *= -1;
-        const g = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r);
-        g.addColorStop(0, `rgba(${o.color}, ${o.alpha})`);
-        g.addColorStop(1, `rgba(${o.color}, 0)`);
-        ctx.beginPath();
-        ctx.arc(o.x, o.y, o.r, 0, Math.PI * 2);
-        ctx.fillStyle = g;
-        ctx.fill();
+        float noise(vec2 texCoord) {
+            float G = e;
+            vec2 r = (G * sin(G * texCoord));
+            return fract(r.x * r.y * (1.0 + texCoord.x));
+        }
+
+        vec2 rotateUvs(vec2 uv, float angle) {
+            float c = cos(angle);
+            float s = sin(angle);
+            mat2 rot = mat2(c, -s, s, c);
+            return rot * uv;
+        }
+
+        void main() {
+            float rnd = noise(gl_FragCoord.xy);
+            vec2 uv = rotateUvs(vUv * uScale, uRotation);
+            vec2 tex = uv * uScale;
+            float tOffset = uSpeed * uTime;
+
+            tex.y += 0.03 * sin(8.0 * tex.x - tOffset);
+
+            float pattern = 0.6 +
+                0.4 * sin(5.0 * (tex.x + tex.y +
+                cos(3.0 * tex.x + 5.0 * tex.y) +
+                0.02 * tOffset) +
+                sin(20.0 * (tex.x + tex.y - 0.1 * tOffset)));
+
+            vec4 col = vec4(uColor, 1.0) * vec4(pattern) - rnd / 15.0 * uNoiseIntensity;
+            col.a = 1.0;
+            gl_FragColor = col;
+        }
+    `;
+
+    function mk(type, src) {
+        const s = gl.createShader(type);
+        gl.shaderSource(s, src); gl.compileShader(s); return s;
+    }
+
+    const prog = gl.createProgram();
+    gl.attachShader(prog, mk(gl.VERTEX_SHADER, vert));
+    gl.attachShader(prog, mk(gl.FRAGMENT_SHADER, frag));
+    gl.linkProgram(prog); gl.useProgram(prog);
+
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(prog, 'a_pos');
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+    const U = {
+        time:  gl.getUniformLocation(prog, 'uTime'),
+        color: gl.getUniformLocation(prog, 'uColor'),
+        speed: gl.getUniformLocation(prog, 'uSpeed'),
+        scale: gl.getUniformLocation(prog, 'uScale'),
+        rot:   gl.getUniformLocation(prog, 'uRotation'),
+        noise: gl.getUniformLocation(prog, 'uNoiseIntensity'),
+    };
+
+    // Deep purple silk
+    gl.uniform3f(U.color, 0.32, 0.10, 0.68);
+    gl.uniform1f(U.speed, 3.0);
+    gl.uniform1f(U.scale, 1.2);
+    gl.uniform1f(U.rot, 0.4);
+    gl.uniform1f(U.noise, 1.5);
+
+    function resize() {
+        canvas.width = innerWidth; canvas.height = innerHeight;
+        gl.viewport(0, 0, canvas.width, canvas.height);
+    }
+
+    let t0 = null;
+    function frame(ts) {
+        if (!t0) t0 = ts;
+        gl.uniform1f(U.time, (ts - t0) * 0.001);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        requestAnimationFrame(frame);
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+    requestAnimationFrame(frame);
+})();
+
+// VARIABLE PROXIMITY
+(function() {
+    const el = document.getElementById('title');
+    const text = 'Privacy Policy';
+    const FROM = 200, TO = 900, RADIUS = 160;
+
+    el.innerHTML = '';
+    const spans = [...text].map(ch => {
+        const s = document.createElement('span');
+        s.textContent = ch === ' ' ? '\u00A0' : ch;
+        s.style.fontVariationSettings = `'wght' ${FROM}`;
+        el.appendChild(s);
+        return s;
     });
-    particles.forEach(p => {
-        p.pulse += 0.02;
-        const a = p.alpha * (0.5 + 0.5 * Math.sin(p.pulse));
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(200, 180, 255, ${a})`;
-        ctx.fill();
-        p.y -= p.speed;
-        if (p.y < -5) { p.y = H + 5; p.x = Math.random() * W; }
+
+    let mx = -9999, my = -9999;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+    function update() {
+        spans.forEach(s => {
+            const r = s.getBoundingClientRect();
+            const cx = r.left + r.width / 2;
+            const cy = r.top + r.height / 2;
+            const dist = Math.hypot(mx - cx, my - cy);
+            const falloff = Math.exp(-((dist / (RADIUS * 0.5)) ** 2) / 2);
+            const w = FROM + (TO - FROM) * falloff;
+            s.style.fontVariationSettings = `'wght' ${w.toFixed(1)}`;
+        });
+        requestAnimationFrame(update);
+    }
+    update();
+})();
+
+// CURSOR
+const cur = document.getElementById('cur');
+const ring = document.getElementById('ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cur.style.left = mx + 'px'; cur.style.top = my + 'px';
+});
+(function rl() {
+    rx += (mx - rx) * 0.1; ry += (my - ry) * 0.1;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(rl);
+})();
+
+document.querySelectorAll('.card').forEach(c => {
+    c.addEventListener('mouseenter', () => {
+        cur.style.transform = 'translate(-50%,-50%) scale(1.6)';
+        ring.style.transform = 'translate(-50%,-50%) scale(1.4)';
+        ring.style.borderColor = 'rgba(138,79,255,0.45)';
     });
-    requestAnimationFrame(draw);
-}
-
-resize(); createOrbs(); createParticles(); draw();
-window.addEventListener('resize', () => { resize(); createOrbs(); createParticles(); });
-
-document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('mousemove', e => {
-        const r = card.getBoundingClientRect();
-        card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
-        card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+    c.addEventListener('mouseleave', () => {
+        cur.style.transform = 'translate(-50%,-50%) scale(1)';
+        ring.style.transform = 'translate(-50%,-50%) scale(1)';
+        ring.style.borderColor = 'rgba(138,79,255,0.22)';
     });
 });
 
+// 3D TILT
+document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width;
+        const y = (e.clientY - r.top) / r.height;
+        card.style.transform = `perspective(900px) rotateX(${(y-.5)*-9}deg) rotateY(${(x-.5)*9}deg)`;
+        card.style.setProperty('--mx', (x*100)+'%');
+        card.style.setProperty('--my', (y*100)+'%');
+    });
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg)';
+    });
+});
+
+// MAGNETIC
+document.querySelectorAll('.nav-link').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+        const r = btn.getBoundingClientRect();
+        const dx = e.clientX - (r.left + r.width / 2);
+        const dy = e.clientY - (r.top + r.height / 2);
+        btn.style.transform = `translate(${dx*.28}px,${dy*.28}px)`;
+        btn.style.transition = 'color 0.35s, border-color 0.35s';
+    });
+    btn.addEventListener('mouseleave', () => {
+        btn.style.transform = 'translate(0,0)';
+        btn.style.transition = 'all 0.5s cubic-bezier(0.22,1,0.36,1)';
+    });
+});
+
+// FADE UP
 const io = new IntersectionObserver(entries => {
     entries.forEach((e, i) => {
         if (e.isIntersecting) {
-            setTimeout(() => e.target.classList.add('visible'), i * 70);
+            setTimeout(() => e.target.classList.add('on'), i * 70);
             io.unobserve(e.target);
         }
     });
-}, { threshold: 0.08 });
-document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+}, { threshold: 0.07 });
+document.querySelectorAll('.fu').forEach(el => io.observe(el));
 </script>
 </body>
 </html>
