@@ -23,7 +23,6 @@
             cursor: none;
         }
 
-        /* SILK WEBGL */
         #silk {
             position: fixed;
             inset: 0;
@@ -32,7 +31,6 @@
             pointer-events: none;
         }
 
-        /* VIGNETTE */
         .vignette {
             position: fixed;
             inset: 0;
@@ -42,7 +40,6 @@
                 radial-gradient(ellipse 80% 60% at 50% 0%, rgba(3,3,10,0.2) 0%, rgba(3,3,10,0.75) 100%);
         }
 
-        /* GRAIN */
         .grain {
             position: fixed;
             inset: 0;
@@ -53,7 +50,6 @@
             background-size: 160px;
         }
 
-        /* CURSOR */
         .cur-dot {
             position: fixed;
             width: 5px; height: 5px;
@@ -83,7 +79,6 @@
                         background 0.4s ease;
         }
 
-        /* Ring inner glow sweep */
         .cur-ring::before {
             content: '';
             position: absolute; inset: -1px;
@@ -111,7 +106,6 @@
             inherits: false;
         }
 
-        /* States */
         body.hovering .cur-dot {
             transform: translate(-50%, -50%) scale(0);
             opacity: 0;
@@ -132,7 +126,6 @@
             width: 28px; height: 28px;
         }
 
-        /* CONTAINER */
         .wrap {
             max-width: 680px;
             margin: 0 auto;
@@ -141,10 +134,8 @@
             z-index: 3;
         }
 
-        /* HEADER */
         .header { text-align: center; margin-bottom: 80px; }
 
-        /* SHINY BADGE */
         .badge {
             display: inline-flex;
             align-items: center;
@@ -197,7 +188,6 @@
             50% { opacity: 0.25; transform: scale(0.7); }
         }
 
-        /* VARIABLE PROXIMITY TITLE */
         #title {
             font-size: 52px;
             font-weight: 400;
@@ -225,7 +215,6 @@
             margin-top: 8px;
         }
 
-        /* CARDS */
         .card {
             position: relative;
             border-radius: 22px;
@@ -247,7 +236,6 @@
                 inset 0 1px 0 rgba(255,255,255,0.04);
         }
 
-        /* BORDER BEAM - travels around the card */
         .card::before {
             content: '';
             position: absolute;
@@ -284,7 +272,6 @@
             inherits: false;
         }
 
-        /* INNER RADIAL GLOW */
         .card::after {
             content: '';
             position: absolute; inset: 0;
@@ -346,14 +333,12 @@
         a { color: rgba(var(--a), 1); text-decoration: none; }
         a:hover { color: #b0c0ff; }
 
-        /* FADE UP */
         .fu {
             opacity: 0; transform: translateY(26px);
             transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
         }
         .fu.on { opacity: 1; transform: translateY(0); }
 
-        /* FOOTER */
         .footer {
             text-align: center; margin-top: 52px; padding-top: 28px;
             border-top: 1px solid rgba(255,255,255,0.035);
@@ -477,9 +462,7 @@
 </div>
 
 <script>
-// ══════════════════════════════════════════
-// SILK — WebGL shader ported from react-bits
-// ══════════════════════════════════════════
+
 (function() {
     const canvas = document.getElementById('silk');
     const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
@@ -569,7 +552,6 @@
         noise:   gl.getUniformLocation(prog, 'uNoiseIntensity'),
     };
 
-    // Deep blue-indigo silk color
     gl.uniform3f(U.color, 0.15, 0.22, 0.72);
     gl.uniform1f(U.speed, 3.0);
     gl.uniform1f(U.scale, 1.2);
@@ -595,9 +577,6 @@
     requestAnimationFrame(frame);
 })();
 
-// ══════════════════════════════════════════
-// VARIABLE PROXIMITY — ported from react-bits
-// ══════════════════════════════════════════
 (function() {
     const el = document.getElementById('title');
     const text = 'Terms of Service';
@@ -622,7 +601,6 @@
             const cy = r.top + r.height / 2;
             const dist = Math.hypot(mx - cx, my - cy);
             const norm = Math.max(0, 1 - dist / RADIUS);
-            // Gaussian falloff for smoother feel
             const falloff = Math.exp(-((dist / (RADIUS * 0.5)) ** 2) / 2);
             const w = FROM + (TO - FROM) * falloff;
             s.style.fontVariationSettings = `'wght' ${w.toFixed(1)}`;
@@ -632,9 +610,6 @@
     update();
 })();
 
-// ══════════════════════════════════════════
-// CURSOR — dot + spinning accent ring
-// ══════════════════════════════════════════
 const dot = document.getElementById('cur-dot');
 const ring = document.getElementById('cur-ring');
 let tx = 0, ty = 0, rx = 0, ry = 0;
@@ -661,9 +636,6 @@ document.querySelectorAll('a, .card, .nav-link, .badge').forEach(el => {
     el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
 });
 
-// ══════════════════════════════════════════
-// 3D CARD TILT
-// ══════════════════════════════════════════
 document.querySelectorAll('.card').forEach(card => {
     card.addEventListener('mousemove', e => {
         const r = card.getBoundingClientRect();
@@ -678,9 +650,6 @@ document.querySelectorAll('.card').forEach(card => {
     });
 });
 
-// ══════════════════════════════════════════
-// MAGNETIC NAV BUTTON
-// ══════════════════════════════════════════
 document.querySelectorAll('.nav-link').forEach(btn => {
     btn.addEventListener('mousemove', e => {
         const r = btn.getBoundingClientRect();
@@ -695,9 +664,6 @@ document.querySelectorAll('.nav-link').forEach(btn => {
     });
 });
 
-// ══════════════════════════════════════════
-// FADE UP ON SCROLL
-// ══════════════════════════════════════════
 const io = new IntersectionObserver(entries => {
     entries.forEach((e, i) => {
         if (e.isIntersecting) {
