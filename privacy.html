@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Bluu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #04040a;
+            color: #9090a0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        #bg-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-size: 180px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 100px 24px 80px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 72px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+            background: rgba(138, 79, 255, 0.08);
+            border: 1px solid rgba(138, 79, 255, 0.18);
+            color: #b07af7;
+        }
+
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #b07af7;
+            box-shadow: 0 0 10px #b07af7;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        .header h1 {
+            font-size: 46px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin-bottom: 14px;
+            background: linear-gradient(135deg, #fff 0%, #e0d0ff 60%, #b07af7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .header h1::after {
+            content: attr(data-text);
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 4s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .header .subtitle { color: #38384a; font-size: 13px; }
+
+        .card {
+            position: relative;
+            border-radius: 20px;
+            padding: 1px;
+            margin-bottom: 14px;
+            background: linear-gradient(135deg, rgba(138, 79, 255, 0.12), rgba(255,255,255,0.03), rgba(138, 79, 255, 0.06));
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .card:hover { transform: translateY(-3px); }
+        .card:hover .card-inner { background: rgba(138, 79, 255, 0.04); }
+
+        .card-inner {
+            background: rgba(8, 8, 18, 0.92);
+            border-radius: 19px;
+            padding: 32px;
+            transition: background 0.4s ease;
+            backdrop-filter: blur(20px);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            background: radial-gradient(300px circle at var(--mx, 50%) var(--my, 50%), rgba(138, 79, 255, 0.08), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .card:hover::before { opacity: 1; }
+
+        .card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+
+        .num {
+            width: 30px;
+            height: 30px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: #b07af7;
+            background: rgba(138, 79, 255, 0.1);
+            border: 1px solid rgba(138, 79, 255, 0.15);
+            flex-shrink: 0;
+        }
+
+        h2 { font-size: 16px; font-weight: 600; color: #dde0f5; letter-spacing: -0.3px; }
+
+        p { font-size: 14px; line-height: 1.8; margin-bottom: 8px; }
+
+        ul { list-style: none; margin: 8px 0; }
+
+        li {
+            font-size: 14px;
+            line-height: 1.8;
+            padding-left: 20px;
+            position: relative;
+            margin-bottom: 2px;
+        }
+
+        li::before {
+            content: '';
+            position: absolute;
+            left: 2px;
+            top: 11px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: rgba(138, 79, 255, 0.5);
+            box-shadow: 0 0 5px rgba(138, 79, 255, 0.3);
+        }
+
+        a { color: #b07af7; text-decoration: none; }
+        a:hover { color: #c9a0fc; }
+
+        /* Data grid */
+        .data-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 16px 0 12px;
+        }
+
+        .data-item {
+            background: rgba(138, 79, 255, 0.03);
+            border: 1px solid rgba(138, 79, 255, 0.08);
+            border-radius: 12px;
+            padding: 18px;
+            transition: border-color 0.3s;
+        }
+
+        .data-item:hover { border-color: rgba(138, 79, 255, 0.18); }
+
+        .data-item h4 {
+            font-size: 11px;
+            font-weight: 700;
+            color: #b07af7;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 10px;
+        }
+
+        .data-item li { font-size: 13px; }
+        .data-item li::before { top: 9px; width: 4px; height: 4px; }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        .footer {
+            text-align: center;
+            margin-top: 48px;
+            padding-top: 28px;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .footer p { font-size: 12px; color: #22222e; }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 14px;
+            padding: 9px 22px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #44445a;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 50px;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            color: #b07af7;
+            border-color: rgba(138,79,255,0.25);
+            background: rgba(138,79,255,0.05);
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.07); border-radius: 3px; }
+
+        @media (max-width: 560px) {
+            .data-grid { grid-template-columns: 1fr; }
+            .header h1 { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<div class="container">
+    <div class="header fade-up">
+        <div class="badge"><span class="badge-dot"></span>Privacy</div>
+        <h1 data-text="Privacy Policy">Privacy Policy</h1>
+        <p class="subtitle">Last updated: April 8, 2026</p>
+    </div>
+
+    <div class="card fade-up">
+        <div class="card-inner">
+            <div class="card-head"><div class="num">1</div><h2>Introduction</h2></div>
+            <p>This Privacy Policy explains what data Bluu collects, how it is used, and how it is stored. We are committed to protecting your privacy and handling your data responsibly.</p>
+        </div>
+    </div>
+
+    <div class="card fade-up">
+        <div class="card-inner">
+            <div class="card-head"><div class="num">2</div><h2>Data We Collect</h2></div>
+            <p>Bluu collects only the data necessary to provide its features. Below is a breakdown of data collected per feature:</p>
+            <div class="data-grid">
+                <div class="data-item"><h4>General</h4><ul><li>Discord User ID</li><li>Discord Server ID</li><li>Channel IDs</li></ul></div>
+                <div class="data-item"><h4>Music</h4><ul><li>Track titles played</li><li>Listening duration</li><li>Listening statistics</li></ul></div>
+                <div class="data-item"><h4>Welcomer</h4><ul><li>Welcome/leave channel</li><li>Custom messages</li><li>Custom images</li></ul></div>
+                <div class="data-item"><h4>Ticket System</h4><ul><li>Ticket creator and staff</li><li>Ticket status</li><li>Form responses</li></ul></div>
+                <div class="data-item"><h4>Giveaway</h4><ul><li>Participant entries</li><li>Prize and duration</li><li>Required roles</li></ul></div>
+                <div class="data-item"><h4>Anonymous Chat</h4><ul><li>Age, gender, bio</li><li>Chat session data</li><li>Report history</li></ul></div>
+            </div>
+            <p>We do not collect passwords, email addresses, IP addresses, or any data beyond what is listed above.</p>
+        </div>
+    </div>
+
+    <div class="card fade-up">
+        <div class="card-inner">
+            <div class="card-head"><div class="num">3</div><h2>How We Use Your Data</h2></div>
+            <p>The collected data is used solely for the following purposes:</p>
+            <ul>
+                <li>To provide and operate bot features as intended.</li>
+                <li>To maintain server-specific configurations.</li>
+                <li>To track music listening statistics for users.</li>
+                <li>To manage ticket sessions and giveaway entries.</li>
+                <li>To facilitate anonymous chat matchmaking and handle reports.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card fade-up">
+        <div class="card-inner">
+            <div class="card-head"><div class="num">4</div><h2>Data Storage and Security</h2></div>
+            <ul>
+                <li>Data is stored in a secured MongoDB database.</li>
+                <li>Access to the database is restricted to the bot developer only.</li>
+                <li>We implement reasonable measures to protect your data from unauthorized access or disclosure.</li>
+                <li>No data is sold, shared, or transferred to third parties for marketing or advertising purposes.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card fade-up">
+        <div class="card-inner">
+            <div class="card-head"><div class="num">5</div><h2>Data Retention</h2></div>
+            <ul>
+                <li>Server configuration data is retained as long as the bot remains in the server. When the bot is removed, the data may be deleted.</li>
+                <li>Anonymous chat data and reports are retained for moderation purposes and may be periodically cleared.</li>
+                <li>Music statistics are retained indefinitely unless a user requests deletion.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card fade-up">
+        <div class="card-inner">
+            <div class="card-head"><div class="num">6</div><h2>Your Rights</h2></div>
+            <p>You have the right to:</p>
+            <ul>
+                <li>Request a copy of the data we store about you.</li>
+                <li>Request deletion of your data from our database.</li>
+                <li>Opt out of data collection by discontinuing use of the bot.</li>
+            </ul>
+            <p>To exercise any of these rights, please contact us at the email provided below.</p>
+        </div>
+    </div>
+
+    <div class="card fade-up">
+        <div class="card-inner">
+            <div class="card-head"><div class="num">7</div><h2>Children's Privacy</h2></div>
+            <p>Bluu does not knowingly collect data from users under the age of 13. If we become aware that a user under 13 has provided personal information, we will take steps to remove that data promptly.</p>
+        </div>
+    </div>
+
+    <div class="card fade-up">
+        <div class="card-inner">
+            <div class="card-head"><div class="num">8</div><h2>Changes to This Policy</h2></div>
+            <p>We may update this Privacy Policy from time to time. Any changes will be reflected on this page with an updated "Last updated" date. Continued use of Bluu after changes constitutes acceptance of the updated policy.</p>
+        </div>
+    </div>
+
+    <div class="card fade-up">
+        <div class="card-inner">
+            <div class="card-head"><div class="num">9</div><h2>Contact</h2></div>
+            <p>If you have any questions or concerns about this Privacy Policy or your data, please contact us at <a href="mailto:tegardanu10@gmail.com">tegardanu10@gmail.com</a>.</p>
+        </div>
+    </div>
+
+    <div class="footer fade-up">
+        <p>Bluu &copy; 2026</p>
+        <a href="terms.html" class="nav-link">&larr; Terms of Service</a>
+    </div>
+</div>
+
+<script>
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, orbs = [], particles = [];
+
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+
+function createOrbs() {
+    orbs = [
+        { x: W * 0.35, y: H * 0.1, r: 360, vx: 0.10, vy: 0.09, color: '138, 79, 255', alpha: 0.12 },
+        { x: W * 0.7, y: H * 0.25, r: 280, vx: -0.08, vy: 0.10, color: '99, 60, 200', alpha: 0.09 },
+        { x: W * 0.45, y: H * 0.75, r: 260, vx: 0.06, vy: -0.09, color: '80, 130, 255', alpha: 0.07 },
+    ];
+}
+
+function createParticles() {
+    particles = Array.from({ length: 55 }, () => ({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.2 + 0.2,
+        alpha: Math.random() * 0.35 + 0.1,
+        speed: Math.random() * 0.3 + 0.1,
+        pulse: Math.random() * Math.PI * 2,
+    }));
+}
+
+function draw() {
+    ctx.clearRect(0, 0, W, H);
+    orbs.forEach(o => {
+        o.x += o.vx; o.y += o.vy;
+        if (o.x < -o.r || o.x > W + o.r) o.vx *= -1;
+        if (o.y < -o.r || o.y > H + o.r) o.vy *= -1;
+        const g = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r);
+        g.addColorStop(0, `rgba(${o.color}, ${o.alpha})`);
+        g.addColorStop(1, `rgba(${o.color}, 0)`);
+        ctx.beginPath();
+        ctx.arc(o.x, o.y, o.r, 0, Math.PI * 2);
+        ctx.fillStyle = g;
+        ctx.fill();
+    });
+    particles.forEach(p => {
+        p.pulse += 0.02;
+        const a = p.alpha * (0.5 + 0.5 * Math.sin(p.pulse));
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(200, 180, 255, ${a})`;
+        ctx.fill();
+        p.y -= p.speed;
+        if (p.y < -5) { p.y = H + 5; p.x = Math.random() * W; }
+    });
+    requestAnimationFrame(draw);
+}
+
+resize(); createOrbs(); createParticles(); draw();
+window.addEventListener('resize', () => { resize(); createOrbs(); createParticles(); });
+
+document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+        card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+    });
+});
+
+const io = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+            setTimeout(() => e.target.classList.add('visible'), i * 70);
+            io.unobserve(e.target);
+        }
+    });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

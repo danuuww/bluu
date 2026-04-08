@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - Bluu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #04040a;
+            color: #9090a0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Canvas background */
+        #bg-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Grain */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-size: 180px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 100px 24px 80px;
+            position: relative;
+            z-index: 3;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 72px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+            background: rgba(99, 120, 255, 0.08);
+            border: 1px solid rgba(99, 120, 255, 0.18);
+            color: #8899ff;
+            position: relative;
+        }
+
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #8899ff;
+            box-shadow: 0 0 10px #8899ff;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        .header h1 {
+            font-size: 46px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin-bottom: 14px;
+            background: linear-gradient(135deg, #fff 0%, #d0d8ff 60%, #8899ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        /* Shimmer animation on title */
+        .header h1::after {
+            content: attr(data-text);
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 4s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .header .subtitle {
+            color: #38384a;
+            font-size: 13px;
+        }
+
+        /* Cards with animated border */
+        .card {
+            position: relative;
+            border-radius: 20px;
+            padding: 1px;
+            margin-bottom: 14px;
+            background: linear-gradient(135deg, rgba(99, 120, 255, 0.12), rgba(255,255,255,0.03), rgba(99, 120, 255, 0.06));
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+        .card:hover .card-inner {
+            background: rgba(99, 120, 255, 0.04);
+        }
+
+        .card-inner {
+            background: rgba(8, 8, 18, 0.92);
+            border-radius: 19px;
+            padding: 32px;
+            transition: background 0.4s ease;
+            backdrop-filter: blur(20px);
+        }
+
+        /* Spotlight glow inside card on hover */
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            background: radial-gradient(300px circle at var(--mx, 50%) var(--my, 50%), rgba(99, 120, 255, 0.08), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .card:hover::before { opacity: 1; }
+
+        .card-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .num {
+            width: 30px;
+            height: 30px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: #8899ff;
+            background: rgba(99, 120, 255, 0.1);
+            border: 1px solid rgba(99, 120, 255, 0.15);
+            flex-shrink: 0;
+        }
+
+        h2 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #dde0f5;
+            letter-spacing: -0.3px;
+        }
+
+        p { font-size: 14px; line-height: 1.8; margin-bottom: 8px; }
+
+        ul { list-style: none; margin: 8px 0; }
+
+        li {
+            font-size: 14px;
+            line-height: 1.8;
+            padding-left: 20px;
+            position: relative;
+            margin-bottom: 2px;
+        }
+
+        li::before {
+            content: '';
+            position: absolute;
+            left: 2px;
+            top: 11px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: rgba(99, 120, 255, 0.5);
+            box-shadow: 0 0 5px rgba(99, 120, 255, 0.3);
+        }
+
+        a { color: #8899ff; text-decoration: none; }
+        a:hover { color: #aabbff; }
+
+        /* Fade up */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 48px;
+            padding-top: 28px;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .footer p { font-size: 12px; color: #22222e; }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 14px;
+            padding: 9px 22px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #44445a;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 50px;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            color: #8899ff;
+            border-color: rgba(99,120,255,0.25);
+            background: rgba(99,120,255,0.05);
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.07); border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<div class="container">
+    <div class="header fade-up">
+        <div class="badge"><span class="badge-dot"></span>Legal</div>
+        <h1 data-text="Terms of Service">Terms of Service</h1>
+        <p class="subtitle">Last updated: April 8, 2026</p>
+    </div>
+
+    <div class="card fade-up">
+        <div class="card-inner">
+            <div class="card-head"><div class="num">1</div><h2>Acceptance of Terms</h2></div>
+            <p>By inviting or using Bluu in your Discord server, you agree to these Terms of Service. If you do not agree with any part of these terms, please remove the bot from your server and discontinue use.</p>
+        </div>
+    </div>
+
+    <div class="card fade-up">
+        <div class="card-inner">
+            <div class="card-head"><div class="num">2</div><h2>Description of Service</h2></div>
+            <p>Bluu is a free Discord bot that provides various features including but not limited to:</p>
+            <ul>
+                <li>Music playback and listening statistics</li>
+                <li>Welcome and leave messages for server members</li>
+                <li>Support ticket system</li>
+                <li>Giveaway management</li>
+                <li>Anonymous chat and matchmaking</li>
+                <li>Sticky notes and announcement panels</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card fade-up">
+        <div class="card-inner">
+            <div class="card-head"><div class="num">3</div><h2>User Conduct</h2></div>
+            <p>When using Bluu, you agree not to:</p>
+            <ul>
+                <li>Exploit bugs, glitches, or vulnerabilities in the bot for personal gain.</li>
+                <li>Attempt to disrupt, overload, or interfere with the bot's functionality.</li>
+                <li>Use the bot for any illegal, harmful, or abusive purposes.</li>
+                <li>Abuse the anonymous chat feature to harass, threaten, or spam other users.</li>
+                <li>Create multiple accounts to bypass restrictions or cooldowns.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card fade-up">
+        <div class="card-inner">
+            <div class="card-head"><div class="num">4</div><h2>Availability</h2></div>
+            <p>Bluu is provided on an "as is" basis. We do not guarantee that the bot will be available at all times. The bot may experience downtime due to maintenance, updates, or unforeseen technical issues. We are not liable for any losses caused by service interruptions.</p>
+        </div>
+    </div>
+
+    <div class="card fade-up">
+        <div class="card-inner">
+            <div class="card-head"><div class="num">5</div><h2>Limitation of Liability</h2></div>
+            <p>Bluu and its developers are not responsible for any damages, data loss, or issues that may arise from using the bot. This includes but is not limited to server misconfiguration, unauthorized access, or third-party service outages.</p>
+        </div>
+    </div>
+
+    <div class="card fade-up">
+        <div class="card-inner">
+            <div class="card-head"><div class="num">6</div><h2>Modifications</h2></div>
+            <p>We reserve the right to update or modify these Terms of Service at any time. Continued use of Bluu after changes are made constitutes your acceptance of the revised terms.</p>
+        </div>
+    </div>
+
+    <div class="card fade-up">
+        <div class="card-inner">
+            <div class="card-head"><div class="num">7</div><h2>Contact</h2></div>
+            <p>If you have any questions regarding these Terms of Service, you can reach us at <a href="mailto:tegardanu10@gmail.com">tegardanu10@gmail.com</a>.</p>
+        </div>
+    </div>
+
+    <div class="footer fade-up">
+        <p>Bluu &copy; 2026</p>
+        <a href="privacy.html" class="nav-link">Privacy Policy &rarr;</a>
+    </div>
+</div>
+
+<script>
+// ---- CANVAS: Mesh Gradient + Floating Orbs ----
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, orbs = [], particles = [];
+
+function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+}
+
+// Orbs (aurora blobs)
+function createOrbs() {
+    orbs = [
+        { x: W * 0.3, y: H * 0.1, r: 380, vx: 0.12, vy: 0.08, color: '99, 120, 255', alpha: 0.12 },
+        { x: W * 0.75, y: H * 0.2, r: 300, vx: -0.09, vy: 0.11, color: '138, 79, 255', alpha: 0.10 },
+        { x: W * 0.5, y: H * 0.7, r: 280, vx: 0.07, vy: -0.10, color: '60, 180, 255', alpha: 0.07 },
+    ];
+}
+
+// Particles (stars)
+function createParticles() {
+    particles = Array.from({ length: 60 }, () => ({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.2 + 0.2,
+        alpha: Math.random() * 0.4 + 0.1,
+        speed: Math.random() * 0.3 + 0.1,
+        pulse: Math.random() * Math.PI * 2,
+    }));
+}
+
+function draw(t) {
+    ctx.clearRect(0, 0, W, H);
+
+    // Draw orbs
+    orbs.forEach(o => {
+        o.x += o.vx;
+        o.y += o.vy;
+        if (o.x < -o.r || o.x > W + o.r) o.vx *= -1;
+        if (o.y < -o.r || o.y > H + o.r) o.vy *= -1;
+
+        const g = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r);
+        g.addColorStop(0, `rgba(${o.color}, ${o.alpha})`);
+        g.addColorStop(1, `rgba(${o.color}, 0)`);
+        ctx.beginPath();
+        ctx.arc(o.x, o.y, o.r, 0, Math.PI * 2);
+        ctx.fillStyle = g;
+        ctx.fill();
+    });
+
+    // Draw particles
+    particles.forEach(p => {
+        p.pulse += 0.02;
+        const a = p.alpha * (0.5 + 0.5 * Math.sin(p.pulse));
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(180, 190, 255, ${a})`;
+        ctx.fill();
+        p.y -= p.speed;
+        if (p.y < -5) { p.y = H + 5; p.x = Math.random() * W; }
+    });
+
+    requestAnimationFrame(draw);
+}
+
+resize();
+createOrbs();
+createParticles();
+draw(0);
+window.addEventListener('resize', () => { resize(); createOrbs(); createParticles(); });
+
+// ---- CARD MOUSE GLOW ----
+document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+        card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+    });
+});
+
+// ---- FADE UP ON SCROLL ----
+const io = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+            setTimeout(() => e.target.classList.add('visible'), i * 70);
+            io.unobserve(e.target);
+        }
+    });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
